@@ -9,6 +9,9 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+    
+    - name: create dir
+      run: mkdir ./artifacts
 
     - name: Create a text file
       run: echo "Hello, world!" > ./artifacts/hello.txt
