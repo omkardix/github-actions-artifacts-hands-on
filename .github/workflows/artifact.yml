@@ -1,36 +1,29 @@
+#The workflow should look like below, notice the download job being added!
+
 name: Workflow Demo
-
-on: [push]
-
+'on':
+  - push
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    
-    - name: create dir
-      run: mkdir ./artifacts
-
-    - name: Create a text file
-      run: echo "Hello, world!" > ./artifacts/hello.txt
-
-    - name: Archive text file
-      uses: actions/upload-artifact@v2
-      with:
-        name: hello-artifact
-        path: ./artifacts/hello.txt
-    
-  download:
-      needs: build
-      runs-on: ubuntu-latest
-
-      steps:
-       - name: Download a Build Artifact
-         uses: actions/download-artifact@v4.1.0
-         with:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create a text file
+        run: 'echo "Hello, world!" > hello.txt'
+      - name: Archive text file
+        uses: actions/upload-artifact@v2
+        with:
+          name: hello-artifact
+          path: hello.txt
+  download: #added
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download text file
+        uses: actions/download-artifact@v2
+        with:
           name: hello-artifact
           path: ./artifacts
-       - name: display the content
-         run: cat ./artifacts/hello.txt
+      - name: Display content of the text file
+        run: cat ./artifacts/hello.txt
